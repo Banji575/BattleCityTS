@@ -2,7 +2,7 @@ export interface IRendererConfig {
     width: number,
     height: number,
     background:string,
-    update: () => void
+    update: (timestamp:number) => void
 }
 
 export class Renderer {

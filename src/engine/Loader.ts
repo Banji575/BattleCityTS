@@ -33,8 +33,29 @@ export class Loader {
         this.loadOrder.image.push({ name, src })
     }
 
-    addJson(name, src) {
-        this.loadOrder.jsons.push({ name, src })
+    addJson(name, json) {
+        this.resourses.jsons[name] = json
+
+    }
+
+    getImage(imageName: string): HTMLImageElement | undefined {
+        let img;
+        Object.keys(this.resourses.image).forEach((name) => {
+            if (name === imageName) {
+                console.log('find image', this.resourses.image[name])
+                img = this.resourses.image[name]
+            }
+        })
+        return img
+    }
+
+    getJson(jsonName: string): {} | undefined {
+        console.log('get json')
+        Object.keys(this.resourses.jsons).forEach(name => {
+            if (name === jsonName)
+                return this.resourses.jsons[name]
+        })
+        return
     }
 
     load(callback) {

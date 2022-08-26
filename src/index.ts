@@ -1,3 +1,4 @@
+import { Sprite } from "./engine/GameObjects/Sprite";
 import { Loader } from "./engine/Loader";
 import { Renderer } from "./engine/Render";
 import json from './static/persons.json'
@@ -12,31 +13,27 @@ const renderer = new Renderer({
     width: 800,
     height: 600,
     background: 'grey',
-    update: (timestamp:number) => {
+    update: (timestamp: number) => {
 
-        renderer.draw((context: CanvasRenderingContext2D) => {
-            context.fillStyle = 'black'
-            context.beginPath()
-            context.arc(
-                renderer.canvas.width/2 + 50 * Math.sin(timestamp/100),
-                renderer.canvas.height / 2 + 50 * Math.cos(timestamp/100),
-                5,
-                0,
-                Math.PI * 2)
-            context.fill()
-        })
     }
 })
 
 document.body.append(renderer.canvas)
-
 loader.addImage('build', fileUrl.href)
 loader.addImage('build2', fileUrl.href)
 
 loader.addJson('person', json)
 
 loader.load(() => {
+    const build = new Sprite(loader.getImage('build'), { x: 0, y: 0, width: 136, height: 128,anchorX:.5, anchorY:.5 })
+    renderer.stage.add(build)
+    build.anchorX = 100
+    build.anchorY = 1
+    console.log(build)
 
+    renderer.update = (timestamp: number) => {
+
+    }
 })
 
 

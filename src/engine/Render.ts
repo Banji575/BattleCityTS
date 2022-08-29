@@ -15,7 +15,7 @@ export class Renderer {
 
     update: (timestamp: number) => void
 
-    
+
     constructor(config: IRendererConfig) {
         this.canvas = document.createElement('canvas')
         this.context = this.canvas.getContext('2d')
@@ -34,6 +34,10 @@ export class Renderer {
         this.update(timestamp)
         this.render()
         requestAnimationFrame(timestamp => this.tick(timestamp))
+    }
+
+    getDisplayObject() {
+
     }
 
     render() {

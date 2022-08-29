@@ -6,5 +6,5 @@ export interface IGameObjects {
     width: number,
     height: number
 
-    draw: (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => void
+   
 }

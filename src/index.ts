@@ -1,3 +1,4 @@
+import { Container } from "./engine/Container";
 import { Sprite } from "./engine/GameObjects/Sprite";
 import { Loader } from "./engine/Loader";
 import { Renderer } from "./engine/Render";
@@ -25,11 +26,15 @@ loader.addImage('build2', fileUrl.href)
 loader.addJson('person', json)
 
 loader.load(() => {
-    const build = new Sprite(loader.getImage('build'), { x: 0, y: 0, width: 136, height: 128,anchorX:.5, anchorY:.5 })
-    renderer.stage.add(build)
-    build.anchorX = 100
-    build.anchorY = 1
-    console.log(build)
+    const build = new Sprite(loader.getImage('build'), { x: 50, y: 50, width: 136, height: 128, anchorX: -1, anchorY: -1 })
+    build.absoluteX = 5
+    build.absoluteY = 0
+
+    const container = new Container()
+    container.add(build)
+    renderer.stage.add(container)
+
+    console.log(renderer)
 
     renderer.update = (timestamp: number) => {
 

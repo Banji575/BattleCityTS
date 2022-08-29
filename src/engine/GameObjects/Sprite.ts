@@ -1,3 +1,4 @@
+import { Entity } from "./Entity"
 import { IGameObjects } from "./IGameObjects"
 
 interface IFrame {
@@ -16,7 +17,7 @@ export interface ISpriteConfig {
     anchorY?: number
 }
 
-export class Sprite implements IGameObjects {
+export class Sprite extends Entity implements IGameObjects {
     texture: any
     frame: any
     x: number
@@ -27,14 +28,17 @@ export class Sprite implements IGameObjects {
     anchorY: number
 
     constructor(texture: any, public spriteConfig: ISpriteConfig) {
+        super()
         this.texture = texture
 
         this.frame = {
-            x: spriteConfig.frame?.x || spriteConfig.x,
-            y: spriteConfig.frame?.y || spriteConfig.y,
+            x: spriteConfig.frame?.x || 0,
+            y: spriteConfig.frame?.y || 0,
             width: spriteConfig.frame?.width || spriteConfig.width,
             height: spriteConfig.frame?.heigth || spriteConfig.height
         }
+
+        console.log(this.frame)
 
         this.x = spriteConfig.x
         this.y = spriteConfig.y
@@ -50,10 +54,11 @@ export class Sprite implements IGameObjects {
     }
 
     set absoluteY(value: number) {
-        this.y = value + this.anchorX + this.height
+        console.log(this.anchorY * this.height)
+        this.y = value + this.anchorY * this.height
     }
     set absoluteX(value: number) {
-        this.x = value + this.anchorY + this.width
+        this.x = value + this.anchorX * this.width
     }
 
     get absoluteX() {
@@ -78,7 +83,7 @@ export class Sprite implements IGameObjects {
         this.width = this.width * value
     }
 
-    draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+    draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D):void {
         context.drawImage(
             this.texture,
             this.frame.x,

@@ -1,12 +1,14 @@
+import { Entity } from "./GameObjects/Entity"
 import { IGameObjects } from "./GameObjects/IGameObjects"
 
-export class Container {
-    displayObjects: IGameObjects[]
+export class Container extends Entity {
+    displayObjects: Entity[]
     constructor() {
+        super()
         this.displayObjects = []
     }
 
-    add(obj: IGameObjects) {
+    add(obj: Entity) {
         if (!this.displayObjects.includes(obj)) {
             this.displayObjects.push(obj)
         }
@@ -14,7 +16,10 @@ export class Container {
 
     draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
         for (const obj of this.displayObjects) {
-            obj.draw(canvas, context)
+            if (typeof obj['draw'] === 'function') {
+                (obj as any).draw(canvas, context)
+            }
+
         }
     }
 

@@ -1,25 +1,51 @@
-import { Entity } from "./GameObjects/Entity"
-import { IGameObjects } from "./GameObjects/IGameObjects"
+import { Entity, IGameObjects } from "./GameObjects/Entity"
+export interface IContainer {
+    remove: (Entity: IGameObjects) => void
+    add: (obj: IGameObjects) => void
+}
 
-export class Container extends Entity {
-    displayObjects: Entity[]
+export class Container extends Entity implements IContainer {
+    displayObjects: IGameObjects[]
     constructor() {
         super()
         this.displayObjects = []
     }
 
-    add(obj: Entity) {
+    add(obj: IGameObjects) {
         if (!this.displayObjects.includes(obj)) {
             this.displayObjects.push(obj)
         }
     }
 
     draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+        context.save()
+
+        context.translate(this.x, this.y)
+        context.rotate(this.rotation)
+        context.scale(this.scaleX, this.scaleY)
+        context.rotate(this.rotation)
         for (const obj of this.displayObjects) {
             if (typeof obj['draw'] === 'function') {
                 (obj as any).draw(canvas, context)
             }
 
+        }
+
+        context.restore()
+    }
+    setParent(parent: IContainer) {
+        if (this.parent) {
+            this.parent.remove(this)
+
+        }
+        parent.add(this)
+        this.parent = parent
+    }
+
+    remove(child: IGameObjects) {
+        if (this.displayObjects.includes(child)) {
+            const index = this.displayObjects.indexOf(child)
+            this.displayObjects.splice(index, 1)
         }
     }
 

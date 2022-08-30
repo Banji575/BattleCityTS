@@ -33,7 +33,17 @@ export class Renderer {
         this.clear()
         this.update(timestamp)
         this.render()
+        this.createTestShape()
         requestAnimationFrame(timestamp => this.tick(timestamp))
+    }
+
+    createTestShape(){
+        this.context.beginPath()
+        this.context.arc(32, 36, 2, 0, 2* Math.PI)
+
+        this.context.fillStyle = 'red'
+        this.context.fill()
+        this.context.stroke()
     }
 
     getDisplayObject() {

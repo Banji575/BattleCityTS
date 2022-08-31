@@ -36,6 +36,7 @@ export class Entity implements IGameObjects {
     scaleY: number
     scale: number
     parent?: IContainer | null
+    visible: boolean
 
     constructor({ width, height, anchorX, anchorY, x, y, rotation, frame, scaleX, scaleY, scale }: IGameObjects = {
         width: 0,
@@ -60,6 +61,7 @@ export class Entity implements IGameObjects {
         this.scaleX = scaleX || 1
         this.scaleY = scaleY || 1
         this.scale = scale || 1
+        this.visible = true
     }
 
     set absoluteY(value: number) {
@@ -83,7 +85,19 @@ export class Entity implements IGameObjects {
         y ? this.scaleY = y : this.scaleY = x
     }
 
+    setParent(parent: IContainer) {
+        if (this.parent) {
+            this.parent.remove(this)
 
+        }
+        parent.add(this)
+        this.parent = parent
+    }
 
+    drawing(callback: () => void) {
+        if (this.visible) {
+            callback()
+        }
+    }
 
 }

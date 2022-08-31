@@ -1,63 +1,90 @@
 import { Container } from "./engine/Container";
+import { Game } from "./engine/Game";
 import { Sprite } from "./engine/GameObjects/Sprite";
 import { Loader } from "./engine/Loader";
-import { Renderer } from "./engine/Render";
+import { IRendererConfig, Renderer } from "./engine/Render";
+import { Scene } from "./engine/Scene";
 import json from './static/persons.json'
 const fileUrl = new URL('./static/firstImg.png', import.meta.url)
 const fileBuild2 = new URL('./static/house.png', import.meta.url)
 const jsonUrl = new URL('./static/persons.json', import.meta.url)
 
+export interface IGameConfig {
+    width: number,
+    height: number,
+    root: HTMLCanvasElement | null,
+    background: string
+    scenes?: Scene[]
+}
 
+const root: HTMLCanvasElement | null = document.querySelector('#root')
 
 
 const loader = new Loader()
-const renderer = new Renderer({
+
+const mainScene = new Scene({
+    autoStart: true,
+    loading(loader: Loader) {
+        loader.addImage('build', fileUrl.href)
+
+    },
+    init() {
+        const img = this.game.loader.getImage('build')
+        console.log(img)
+        this.build = new Sprite(img, { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
+        this.add(this.build)
+    },
+    update(timestamp) {
+        this.build.rotation = timestamp / 1000
+    }
+})
+
+const gameConfig: IGameConfig = {
     width: 800,
     height: 600,
     background: 'grey',
-    update: (timestamp: number) => {
-
-    }
-})
-
-document.body.append(renderer.canvas)
-loader.addImage('build', fileUrl.href)
-loader.addImage('build2', fileUrl.href)
-loader.addImage('house', fileBuild2.href)
-
-loader.addJson('person', json)
-
-loader.load(() => {
-    const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX:.5, anchorY:.5 })
-    const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
-
-console.log(build)
-    const container = new Container()
-
-    // container.add(build)
-    container.add(build)
-
-    // renderer.stage.add(container)
-    // container.x = renderer.canvas.width / 2
-    // container.y = renderer.canvas.height / 2
-
-    renderer.stage.add(container)
+    root,
+    scenes: [mainScene]
+}
+const game = new Game(gameConfig)
 
 
 
-    // build.rotation= Math.PI
-renderer.createTestShape()
-
-    renderer.update = (timestamp: number) => {
-         container.rotation = timestamp / 10000
-        //  house.rotation = timestamp / 1000
-        // build.rotation = timestamp / 1000
-
-    }
-})
 
 
-console.log(loader)
+// const renderer = game.renderer
+
+// loader.addImage('build', fileUrl.href)
+// loader.addImage('build2', fileUrl.href)
+// loader.addImage('house', fileBuild2.href)
+
+// loader.addJson('person', json)
+
+// loader.load(() => {
+//     const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
+//     const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
+
+
+//     const container = new Container()
+//     const secondContainer = new Container()
+//     // container.add(build)
+//     container.add(build)
+//     container.remove(build)
+
+//     secondContainer.add(build)
+
+//     renderer.stage.add(secondContainer)
+
+
+//     // build.rotation= Math.PI
+//     // renderer.createTestShape()
+
+//     renderer.update = (timestamp: number) => {
+
+
+//     }
+// })
+
 
 
 // Loader.loadImage(fileUrl.href)

@@ -4,16 +4,16 @@ export interface IRendererConfig {
     width: number,
     height: number,
     background: string,
-    update: (timestamp: number) => void
+    update?: (timestamp: number) => void
 }
 
 export class Renderer {
     canvas: HTMLCanvasElement
     context: CanvasRenderingContext2D
-    background: string
+    background?: string
     stage: Container
 
-    update: (timestamp: number) => void
+    update: (timestamp: number) => void = () => { }
 
 
     constructor(config: IRendererConfig) {
@@ -22,7 +22,6 @@ export class Renderer {
         this.background = config.background
         this.canvas.width = config.width
         this.canvas.height = config.height
-        this.update = config.update
 
 
         this.stage = new Container()
@@ -37,9 +36,9 @@ export class Renderer {
         requestAnimationFrame(timestamp => this.tick(timestamp))
     }
 
-    createTestShape(){
+    createTestShape() {
         this.context.beginPath()
-        this.context.arc(32, 36, 2, 0, 2* Math.PI)
+        this.context.arc(32, 36, 2, 0, 2 * Math.PI)
 
         this.context.fillStyle = 'red'
         this.context.fill()
@@ -55,7 +54,8 @@ export class Renderer {
     }
 
     clear() {
-        this.context.fillStyle = this.background
+        if (this.background)
+            this.context.fillStyle = this.background
         this.context.beginPath()
         this.context.rect(0, 0, this.canvas.width, this.canvas.height)
         this.context.fill()

@@ -24,14 +24,18 @@ const loader = new Loader()
 
 const mainScene = new Scene({
     autoStart: true,
-    loading() {
-        console.log('loading')
+    loading(loader: Loader) {
+        loader.addImage('build', fileUrl.href)
+
     },
     init() {
-        console.log('init')
+        const img = this.game.loader.getImage('build')
+        console.log(img)
+        this.build = new Sprite(img, { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
+        this.add(this.build)
     },
-    update() {
-        console.log('update')
+    update(timestamp) {
+        this.build.rotation = timestamp / 1000
     }
 })
 
@@ -43,38 +47,43 @@ const gameConfig: IGameConfig = {
     scenes: [mainScene]
 }
 const game = new Game(gameConfig)
-const renderer = game.renderer
-
-loader.addImage('build', fileUrl.href)
-loader.addImage('build2', fileUrl.href)
-loader.addImage('house', fileBuild2.href)
-
-loader.addJson('person', json)
-
-loader.load(() => {
-    const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
-    const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
 
 
-    const container = new Container()
-    const secondContainer = new Container()
-    // container.add(build)
-    container.add(build)
-    container.remove(build)
-
-    secondContainer.add(build)
-
-    renderer.stage.add(secondContainer)
 
 
-    // build.rotation= Math.PI
-    // renderer.createTestShape()
 
-    renderer.update = (timestamp: number) => {
+// const renderer = game.renderer
+
+// loader.addImage('build', fileUrl.href)
+// loader.addImage('build2', fileUrl.href)
+// loader.addImage('house', fileBuild2.href)
+
+// loader.addJson('person', json)
+
+// loader.load(() => {
+//     const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
+//     const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
 
 
-    }
-})
+//     const container = new Container()
+//     const secondContainer = new Container()
+//     // container.add(build)
+//     container.add(build)
+//     container.remove(build)
+
+//     secondContainer.add(build)
+
+//     renderer.stage.add(secondContainer)
+
+
+//     // build.rotation= Math.PI
+//     // renderer.createTestShape()
+
+//     renderer.update = (timestamp: number) => {
+
+
+//     }
+// })
 
 
 

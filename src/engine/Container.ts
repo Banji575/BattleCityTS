@@ -36,6 +36,7 @@ export class Container extends Entity implements IContainer {
             context.rotate(this.rotation)
             for (const obj of this.displayObjects) {
                 if (typeof obj['draw'] === 'function') {
+                    
                     (obj as any).draw(canvas, context)
                 }
 

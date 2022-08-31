@@ -22,7 +22,7 @@ export class Sprite extends Entity {
 
         super.drawing(() => {
             context.save()
-
+            
             context.translate(this.x, this.y)
             context.scale(this.scaleX, this.scaleY)
             context.rotate(-this.rotation)
@@ -37,7 +37,7 @@ export class Sprite extends Entity {
                 this.width,
                 this.height
             )
-
+            
             context.restore()
         })
 

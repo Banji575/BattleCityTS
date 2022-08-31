@@ -10,9 +10,9 @@ export enum sceneStatus {
 
 interface ISceneConfig {
     autoStart?: boolean,
-    loading?: () => void,
+    loading?: (loader: Loader) => void,
     init?: () => void,
-    update?: () => void
+    update?: (timestamp: number) => void
 }
 
 
@@ -23,18 +23,18 @@ export class Scene extends Container {
     constructor(sceneConfig: ISceneConfig) {
         super()
         this.status = sceneStatus.wainting
-        
+
         this.autoStart = sceneConfig.autoStart || false
         if (sceneConfig.loading)
-            this.loading = sceneConfig.loading
+            this.loading = sceneConfig.loading.bind(this)
         if (sceneConfig.init)
-            this.init = sceneConfig.init
+            this.init = sceneConfig.init.bind(this)
         if (sceneConfig.update)
-            this.update = sceneConfig.update
+            this.update = sceneConfig.update.bind(this)
 
     }
 
     loading(loader: Loader) { }
     init() { }
-    update() { }
+    update(timestamp: number) { }
 }

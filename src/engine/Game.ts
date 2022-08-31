@@ -37,6 +37,7 @@ export class Game {
             for (let _scene of autostartScenes) {
                 const scene = (_scene as Scene)
                 scene.status = sceneStatus.ready
+
                 scene.init()
             }
         })
@@ -44,17 +45,22 @@ export class Game {
         requestAnimationFrame(timestamp => this.tick(timestamp))
     }
     tick(timestamp: number) {
+        this.renderer.clear()
         for (let _scene of this.scenes.getElements()) {
             const scene = (_scene as Scene)
-            if (scene.status === sceneStatus.ready)
-                scene.update()
+            if (scene.status === sceneStatus.ready) {
+                scene.update(timestamp)
+                scene.draw(this.renderer.canvas, this.renderer.context)
+            }
         }
-        this.renderer.clear()
-        // this.update(timestamp)
+
+
         this.renderer.render()
 
         requestAnimationFrame(timestamp => this.tick(timestamp))
     }
+
+
 
     initScene(scenes: Scene[]) {
         this.scenes.add(scenes)

@@ -18,17 +18,31 @@ export interface IGameConfig {
 }
 
 const root: HTMLCanvasElement | null = document.querySelector('#root')
+
+
+const loader = new Loader()
+
+const mainScene = new Scene({
+    autoStart: true,
+    loading() {
+        console.log('loading')
+    },
+    init() {
+        console.log('init')
+    },
+    update() {
+        console.log('update')
+    }
+})
+
 const gameConfig: IGameConfig = {
     width: 800,
     height: 600,
     background: 'grey',
-    root
+    root,
+    scenes: [mainScene]
 }
-
-
-const loader = new Loader()
 const game = new Game(gameConfig)
-
 const renderer = game.renderer
 
 loader.addImage('build', fileUrl.href)
@@ -41,7 +55,7 @@ loader.load(() => {
     const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
     const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
 
-    console.log(build)
+
     const container = new Container()
     const secondContainer = new Container()
     // container.add(build)
@@ -62,8 +76,6 @@ loader.load(() => {
     }
 })
 
-
-console.log(loader)
 
 
 // Loader.loadImage(fileUrl.href)

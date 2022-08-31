@@ -25,16 +25,10 @@ export class Renderer {
 
 
         this.stage = new Container()
-        requestAnimationFrame(timestamp => this.tick(timestamp))
+       
     }
 
-    tick(timestamp: number) {
-        this.clear()
-        this.update(timestamp)
-        this.render()
-        this.createTestShape()
-        requestAnimationFrame(timestamp => this.tick(timestamp))
-    }
+
 
     createTestShape() {
         this.context.beginPath()

@@ -42,7 +42,6 @@ export class Loader {
         let img;
         Object.keys(this.resourses.image).forEach((name) => {
             if (name === imageName) {
-                console.log('find image', this.resourses.image[name])
                 img = this.resourses.image[name]
             }
         })

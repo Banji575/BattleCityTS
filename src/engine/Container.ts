@@ -11,10 +11,19 @@ export class Container extends Entity implements IContainer {
         this.displayObjects = []
     }
 
-    add(obj: IGameObjects) {
-        if (!this.displayObjects.includes(obj)) {
-            this.displayObjects.push(obj)
+    add(obj: IGameObjects | IGameObjects[]) {
+        if (Array.isArray(obj)) {
+            for (let elem of obj) {
+                if (!this.displayObjects.includes(elem)) {
+                    this.displayObjects.push(elem)
+                }
+            }
+        } else {
+            if (!this.displayObjects.includes(obj)) {
+                this.displayObjects.push(obj)
+            }
         }
+
     }
 
     draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
@@ -37,6 +46,13 @@ export class Container extends Entity implements IContainer {
 
     }
 
+    getElement(elem:IGameObjects){
+        return this.displayObjects.includes(elem)
+    }
+
+    getElements() : IGameObjects[]{
+        return this.displayObjects
+    }
 
     remove(child: IGameObjects) {
         if (this.displayObjects.includes(child)) {

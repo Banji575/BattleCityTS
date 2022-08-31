@@ -18,24 +18,28 @@ export class Sprite extends Entity {
     }
 
 
-    draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D):void {
-        context.save()
+    draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D): void {
 
-        context.translate(this.x, this.y)
-        context.scale(this.scaleX, this.scaleY)
-        context.rotate(-this.rotation)
-        context.drawImage(
-            this.texture,
-            this.frame.x,
-            this.frame.y,
-            this.frame.width,
-            this.frame.height,
-            this.absoluteX - this.x,
-            this.absoluteY - this.y,
-            this.width,
-            this.height
-        )
+        super.drawing(() => {
+            context.save()
 
-        context.restore()
+            context.translate(this.x, this.y)
+            context.scale(this.scaleX, this.scaleY)
+            context.rotate(-this.rotation)
+            context.drawImage(
+                this.texture,
+                this.frame.x,
+                this.frame.y,
+                this.frame.width,
+                this.frame.height,
+                this.absoluteX - this.x,
+                this.absoluteY - this.y,
+                this.width,
+                this.height
+            )
+
+            context.restore()
+        })
+
     }
 }

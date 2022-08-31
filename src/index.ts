@@ -28,30 +28,26 @@ loader.addImage('house', fileBuild2.href)
 loader.addJson('person', json)
 
 loader.load(() => {
-    const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX:.5, anchorY:.5 })
+    const build = new Sprite(loader.getImage('build'), { x: 100, y: 100, width: 136, height: 128, anchorX: .5, anchorY: .5 })
     const house = new Sprite(loader.getImage('house'), { x: 100, y: 50, width: 167, height: 144 })
 
-console.log(build)
+    console.log(build)
     const container = new Container()
-
+    const secondContainer = new Container()
     // container.add(build)
     container.add(build)
+    container.remove(build)
 
-    // renderer.stage.add(container)
-    // container.x = renderer.canvas.width / 2
-    // container.y = renderer.canvas.height / 2
+    secondContainer.add(build)
 
-    renderer.stage.add(container)
-
+    renderer.stage.add(secondContainer)
 
 
     // build.rotation= Math.PI
-renderer.createTestShape()
+    renderer.createTestShape()
 
     renderer.update = (timestamp: number) => {
-         container.rotation = timestamp / 10000
-        //  house.rotation = timestamp / 1000
-        // build.rotation = timestamp / 1000
+
 
     }
 })

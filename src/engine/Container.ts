@@ -18,35 +18,32 @@ export class Container extends Entity implements IContainer {
     }
 
     draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
-        context.save()
+        super.drawing(() => {
+            context.save()
 
-        context.translate(this.x, this.y)
-        context.rotate(this.rotation)
-        context.scale(this.scaleX, this.scaleY)
-        context.rotate(this.rotation)
-        for (const obj of this.displayObjects) {
-            if (typeof obj['draw'] === 'function') {
-                (obj as any).draw(canvas, context)
+            context.translate(this.x, this.y)
+            context.rotate(this.rotation)
+            context.scale(this.scaleX, this.scaleY)
+            context.rotate(this.rotation)
+            for (const obj of this.displayObjects) {
+                if (typeof obj['draw'] === 'function') {
+                    (obj as any).draw(canvas, context)
+                }
+
             }
 
-        }
+            context.restore()
+        })
 
-        context.restore()
     }
-    setParent(parent: IContainer) {
-        if (this.parent) {
-            this.parent.remove(this)
 
-        }
-        parent.add(this)
-        this.parent = parent
-    }
 
     remove(child: IGameObjects) {
         if (this.displayObjects.includes(child)) {
             const index = this.displayObjects.indexOf(child)
             this.displayObjects.splice(index, 1)
         }
+        child.parent = null
     }
 
 }
